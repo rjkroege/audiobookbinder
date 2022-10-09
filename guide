@@ -1,0 +1,5 @@
+Edit X:id3dumper/\+Errors: 1,$d
+X:id3dumper/.*\.go: w
+
+go build
+./id3dumper /Users/rjkroege/wrks/docslocal/parents/audio-books/A_Courtesans_Scandal/A_Courtesans_Scandal.mp3
