@@ -15,7 +15,6 @@ func main() {
 		log.Println("handling", f)
 		readTags(f)
 	}
-
 }
 
 func readTags(fn string) {
@@ -29,8 +28,6 @@ func readTags(fn string) {
 	
 	for k, v := range frames {
 		// TODO(rjk): should print a picture using the terminal capabilities
-		// I want pictures in Edwood. How to define a picture? In a text stream?
-		// Need some kind of protocol. API. Etc.
 		if k == "APIC" {
 			log.Println("APIC (i.e. image) present, image data elided")
 		} else {
@@ -38,3 +35,6 @@ func readTags(fn string) {
 		}
 	}
 }
+
+// TODO(rjk): Better display of pictures
+// TODO(rjk): Better display of Chapter info
