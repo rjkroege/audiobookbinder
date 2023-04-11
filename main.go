@@ -1,23 +1,42 @@
 package main
 
 import (
-	"flag"
 	"log"
 
+	"github.com/alecthomas/kong"
 	"github.com/rjkroege/id3dumper/cmd"
 )
 
-// TODO(rjk): Consider switching to kong?
+var CLI struct {
+	Debug bool `help:"Enable debugging conveniences as needed."`
+	Scan  struct {
+		Paths []string `arg:"" name:"path" help:"Paths to scan." type:"path"`
+	} `cmd:"" help:"Scan directories for audiobook segments."`
+
+	Report struct {
+	} `cmd:"" help:"Print out a report about previously scanned audiobook segments."`
+}
+
 func main() {
 	log.Println("hello")
 
-	// Option parsing.
-	flag.Parse()
+	ctx := kong.Parse(&CLI)
+	cmdctx := &cmd.Context{
+		Debug: CLI.Debug,
+	}
 
-	for _, f := range flag.Args() {
-		err := cmd.WalkAll(f)
-		if err != nil {
-			log.Println("Walk failed", err)
+	switch ctx.Command() {
+	case "scan <path>":
+		for _, f := range CLI.Scan.Paths {
+			err := cmd.WalkAll(cmdctx, f)
+			if err != nil {
+				log.Println("Walk failed", err)
+			}
 		}
+	case "report":
+		log.Fatal("report functionality is not yet implemented")
+	default:
+		log.Fatal("Missing command: ", ctx.Command())
+
 	}
 }
