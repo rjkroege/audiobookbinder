@@ -2,13 +2,12 @@ package tags
 
 import (
 	"path/filepath"
-	"strings"
 	"strconv"
+	"strings"
 )
 
-
 // Info is the cannonical structure for metadata.
-// TODO(rjk): 
+// TODO(rjk):
 type Info struct {
 	// Author of this book
 	Author string
@@ -20,7 +19,7 @@ type Info struct {
 	SeriesTitle string
 
 	// Position of fragment within book
-	DiskIndex int
+	DiskIndex  int
 	TrackIndex int
 
 	// Year of publication
@@ -41,18 +40,17 @@ type Info struct {
 
 // Reader providees a standard way for per-file tag reading mechanisms.
 type MetaReader interface {
-// Reads the tag data from file name and returns it in the cannonical
-// Info structure or returns an error if impossible to do so.
-// TODO(rjk): API second-guessing: it's possible that I could save the
-// path into the object? Shrug. It doesn't matter at this level of complexity.
+	// Reads the tag data from file name and returns it in the cannonical
+	// Info structure or returns an error if impossible to do so.
+	// TODO(rjk): API second-guessing: it's possible that I could save the
+	// path into the object? Shrug. It doesn't matter at this level of complexity.
 	Get(path string) (*Info, error)
-
 }
 
 // Pretty print an Info.
 func (i *Info) String() string {
 	b := new(strings.Builder)
-	
+
 	b.WriteString("{\n")
 	b.WriteString("	Author:		")
 	b.WriteString(i.Author)
@@ -61,19 +59,19 @@ func (i *Info) String() string {
 	b.WriteString(i.BookTitle)
 	b.WriteByte('\n')
 	b.WriteString("	Filename:		")
-	b.WriteString( i.Filename)
+	b.WriteString(i.Filename)
 	b.WriteByte('\n')
 
 	b.WriteString("	Year:		")
-	b.WriteString( strconv.FormatInt( int64( i.Year ), 10))
+	b.WriteString(strconv.FormatInt(int64(i.Year), 10))
 	b.WriteByte('\n')
 
 	b.WriteString("	Track:		")
-	b.WriteString( strconv.FormatInt( int64( i.TrackIndex ), 10))
+	b.WriteString(strconv.FormatInt(int64(i.TrackIndex), 10))
 	b.WriteByte('\n')
 
 	b.WriteString("	TrackName:	")
-	b.WriteString( i.TrackName )
+	b.WriteString(i.TrackName)
 	b.WriteByte('\n')
 
 	b.WriteString("}")

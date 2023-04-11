@@ -1,34 +1,23 @@
 package main
 
 import (
-	"log"
 	"flag"
+	"log"
 
-	"github.com/rjkroege/id3dumper/tags"
+	"github.com/rjkroege/id3dumper/cmd"
 )
 
-
-var debug = flag.Bool("debug", false, "Set to true for more verbose debugging")
-
-
+// TODO(rjk): Consider switching to kong?
 func main() {
 	log.Println("hello")
 
-	// Option parsing
+	// Option parsing.
 	flag.Parse()
-	
+
 	for _, f := range flag.Args() {
-		log.Println("handling", f)
-		mdrd := tags.Match(f, *debug)
-		if mdrd != nil {
-			tag, err := mdrd.Get(f)
-			if err != nil {
-				log.Println("Skipping unreadable tag:", err)
-				continue
-			}
-			log.Println(tag.String())
+		err := cmd.WalkAll(f)
+		if err != nil {
+			log.Println("Walk failed", err)
 		}
 	}
 }
-
-
