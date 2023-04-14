@@ -7,6 +7,7 @@ import (
 
 	// The v2 suffix is for version2 of the module system?
 	"github.com/bogem/id3v2/v2"
+	"github.com/rjkroege/id3dumper/state"
 )
 
 type id3 struct {
@@ -20,7 +21,7 @@ type id3 struct {
 
 // Maybe dump the
 
-func (tr *id3) Get(path string) (*Info, error) {
+func (tr *id3) Get(path string) (*state.Track, error) {
 
 	tag, err := id3v2.Open(path, id3v2.Options{Parse: true})
 	if err != nil {
@@ -65,16 +66,16 @@ func (tr *id3) Get(path string) (*Info, error) {
 	// TODO(rjk): Handle pictures.
 	// TODO(rjk): Genre? Check that? Validate?
 
-	return &Info{
+	return &state.Track{
 		Author:    tag.Artist(),
-		BookTitle: tag.Album(),
+		Booktitle: tag.Album(),
 		//		SeriesTitle: // TIT2
 		//		SeriesIndex: // ?
 		Filename:   path,
-		Year:       year,
-		TrackIndex: ntrack,
-		DiskIndex:  1,
-		TrackName:  tag.Title(),
+		Year:       int64(year),
+		Trackindex: int64(ntrack),
+		Diskindex:  1,
+		Trackname:  tag.Title(),
 	}, nil
 }
 
