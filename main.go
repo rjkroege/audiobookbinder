@@ -9,20 +9,30 @@ import (
 
 var CLI struct {
 	Debug bool `help:"Enable debugging conveniences as needed."`
+
+	// TODO(rjk): Later, keep this somewhere smarter?
+	Db string  `help:"Enable debugging conveniences as needed." default:"state.db"`
 	Scan  struct {
 		Paths []string `arg:"" name:"path" help:"Paths to scan." type:"path"`
 	} `cmd:"" help:"Scan directories for audiobook segments."`
 
 	Report struct {
 	} `cmd:"" help:"Print out a report about previously scanned audiobook segments."`
+
+	Reset struct {
+	} `cmd:"" help:"Create a brand new empty database."`
 }
 
 func main() {
-	log.Println("hello")
+	log.Println("hello 1")
 
 	ctx := kong.Parse(&CLI)
+
+	log.Println("the db file", CLI.Db)
+
 	cmdctx := &cmd.Context{
 		Debug: CLI.Debug,
+		Db: CLI.Db,
 	}
 
 	switch ctx.Command() {
@@ -35,8 +45,9 @@ func main() {
 		}
 	case "report":
 		log.Fatal("report functionality is not yet implemented")
+	case "reset":
+		log.Fatal("reset functionality is not yet implemented")
 	default:
 		log.Fatal("Missing command: ", ctx.Command())
-
 	}
 }
