@@ -12,8 +12,8 @@ var CLI struct {
 	Debug bool `help:"Enable debugging conveniences as needed."`
 
 	// TODO(rjk): Later, keep this somewhere smarter?
-	Db string  `help:"Enable debugging conveniences as needed." default:"state.db"`
-	Scan  struct {
+	Db   string `help:"Enable debugging conveniences as needed." default:"state.db"`
+	Scan struct {
 		Paths []string `arg:"" name:"path" help:"Paths to scan." type:"path"`
 	} `cmd:"" help:"Scan directories for audiobook segments."`
 
@@ -32,7 +32,7 @@ func main() {
 	log.Println("the db file", CLI.Db)
 
 	cmdctx := &global.Context{
-		Debug: CLI.Debug,
+		Debug:  CLI.Debug,
 		Dbname: CLI.Db,
 	}
 

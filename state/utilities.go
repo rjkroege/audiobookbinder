@@ -1,8 +1,8 @@
 package state
 
 import (
-	"strings"
 	"strconv"
+	"strings"
 )
 
 // Pretty print an Track.

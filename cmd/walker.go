@@ -6,8 +6,8 @@ import (
 	"log"
 	"path/filepath"
 
+	"github.com/rjkroege/id3dumper/global"
 	"github.com/rjkroege/id3dumper/tags"
-		"github.com/rjkroege/id3dumper/global"
 )
 
 func perfd(gctx *global.Context, path string, info fs.FileInfo, err error) error {

@@ -1,11 +1,11 @@
 package cmd
 
 import (
-	"os"
 	"fmt"
+	"os"
 
-		"github.com/rjkroege/id3dumper/state"
-		"github.com/rjkroege/id3dumper/global"
+	"github.com/rjkroege/id3dumper/global"
+	"github.com/rjkroege/id3dumper/state"
 )
 
 func ResetDatabase(gctx *global.Context) error {

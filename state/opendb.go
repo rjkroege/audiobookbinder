@@ -1,15 +1,13 @@
 package state
 
 import (
-	"database/sql"
 	"context"
-	"fmt"
+	"database/sql"
 	_ "embed"
+	"fmt"
 
-
-		"github.com/rjkroege/id3dumper/global"
+	"github.com/rjkroege/id3dumper/global"
 	_ "modernc.org/sqlite"
-		
 )
 
 //go:embed schema.sql
@@ -27,7 +25,7 @@ func OpenDb(gctx *global.Context) error {
 	if _, err := db.ExecContext(ctx, ddl); err != nil {
 		return fmt.Errorf("OpenDb can't make tables: %v", err)
 	}
-	
+
 	// Now db is ready for action.
 	gctx.Db = db
 	return nil

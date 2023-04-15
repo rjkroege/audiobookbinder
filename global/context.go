@@ -5,7 +5,7 @@ import (
 )
 
 type Context struct {
-	Debug bool
+	Debug  bool
 	Dbname string
-	Db *sql.DB
+	Db     *sql.DB
 }

@@ -3,9 +3,8 @@ package tags
 import (
 	"path/filepath"
 
-	"github.com/rjkroege/id3dumper/state"	
+	"github.com/rjkroege/id3dumper/state"
 )
-
 
 // Reader providees a standard way for per-file tag reading mechanisms.
 type MetaReader interface {
@@ -15,7 +14,6 @@ type MetaReader interface {
 	// path into the object? Shrug. It doesn't matter at this level of complexity.
 	Get(path string) (*state.Track, error)
 }
-
 
 // Return a MetaReader implementation appropriate to path's extension or nil.
 // TODO(rjk): I note the possibility of supporting complex options with
