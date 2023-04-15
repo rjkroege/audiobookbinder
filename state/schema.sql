@@ -1,7 +1,7 @@
 -- TODO(rjk): It's highly likely that additional refinements are needed here.
 -- TODO(rjk): Support for pictures.
 -- Content extracted from metadata in each track.
-CREATE TABLE tracks (
+CREATE TABLE IF NOT EXISTS tracks (
 	id   INTEGER PRIMARY KEY,
 
 	-- Author of this book.
@@ -26,14 +26,14 @@ CREATE TABLE tracks (
 	trackname text NOT NULL
 );
 
-CREATE TABLE books (
+CREATE TABLE IF NOT EXISTS  books (
 	id   INTEGER PRIMARY KEY,
 	complete INTEGER  NOT NULL
 );
 
 -- Note the presence of the foreign key constraint.
 -- Will this be adequate for my sorting needs? I guess I'll find out.
-CREATE TABLE bookmembership (
+CREATE TABLE  IF NOT EXISTS bookmembership (
 	bookid INTEGER  NOT NULL REFERENCES books(id),
 	trackid INTEGER NOT NULL REFERENCES tracks(id)
 );

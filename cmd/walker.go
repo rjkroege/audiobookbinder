@@ -7,16 +7,17 @@ import (
 	"path/filepath"
 
 	"github.com/rjkroege/id3dumper/tags"
+		"github.com/rjkroege/id3dumper/global"
 )
 
-func perfd(ctx *Context, path string, info fs.FileInfo, err error) error {
+func perfd(gctx *global.Context, path string, info fs.FileInfo, err error) error {
 	// Directories can't ever be of interest.
 	if info.IsDir() {
 		return nil
 	}
 
 	log.Println("handling", path)
-	mdrd := tags.Match(path, ctx.Debug)
+	mdrd := tags.Match(path, gctx.Debug)
 	if mdrd != nil {
 		tag, err := mdrd.Get(path)
 		if err != nil {
@@ -33,11 +34,11 @@ func perfd(ctx *Context, path string, info fs.FileInfo, err error) error {
 // WalkAll walks the provided directory path looking for audiobook files.
 // TODO(rjk): Add these to a database.
 // TODO(rjk): put the loop into this.
-func WalkAll(ctx *Context, root string) error {
+func WalkAll(gctx *global.Context, root string) error {
 	// TODO(rjk): Should this be the io/fs.WalkDir to work on Windows?
 	// TODO(rjk): Should this be a WalkDir invocation? Maybe that's faster?
 	if err := filepath.Walk(root, func(path string, info fs.FileInfo, err error) error {
-		return perfd(ctx, path, info, err)
+		return perfd(gctx, path, info, err)
 	}); err != nil {
 		return fmt.Errorf("can't walk %q: %v", root, err)
 	}

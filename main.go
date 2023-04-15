@@ -5,6 +5,7 @@ import (
 
 	"github.com/alecthomas/kong"
 	"github.com/rjkroege/id3dumper/cmd"
+	"github.com/rjkroege/id3dumper/global"
 )
 
 var CLI struct {
@@ -30,9 +31,9 @@ func main() {
 
 	log.Println("the db file", CLI.Db)
 
-	cmdctx := &cmd.Context{
+	cmdctx := &global.Context{
 		Debug: CLI.Debug,
-		Db: CLI.Db,
+		Dbname: CLI.Db,
 	}
 
 	switch ctx.Command() {
@@ -46,7 +47,9 @@ func main() {
 	case "report":
 		log.Fatal("report functionality is not yet implemented")
 	case "reset":
-		log.Fatal("reset functionality is not yet implemented")
+		if err := cmd.ResetDatabase(cmdctx); err != nil {
+			log.Fatalf("Can't reset database %q: %v", cmdctx.Dbname, err)
+		}
 	default:
 		log.Fatal("Missing command: ", ctx.Command())
 	}
