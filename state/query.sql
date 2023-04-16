@@ -6,7 +6,7 @@ ORDER BY filename;
 
 -- name: CreateTrack :exec
 INSERT INTO tracks (
-  author, booktitle, trackindex, year, filename, trackname
+  author, booktitle, diskindex, trackindex, year, filename, trackname
 ) VALUES (
-  ?, ?, ?, ?, ?, ?
+  ?, ?, ?, ?, ?, ?, ?
 );

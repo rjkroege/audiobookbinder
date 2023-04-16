@@ -12,15 +12,16 @@ import (
 const createTrack = `-- name: CreateTrack :exec
 
 INSERT INTO tracks (
-  author, booktitle, trackindex, year, filename, trackname
+  author, booktitle, diskindex, trackindex, year, filename, trackname
 ) VALUES (
-  ?, ?, ?, ?, ?, ?
+  ?, ?, ?, ?, ?, ?, ?
 )
 `
 
 type CreateTrackParams struct {
 	Author     string
 	Booktitle  string
+	Diskindex  int64
 	Trackindex int64
 	Year       int64
 	Filename   string
@@ -32,6 +33,7 @@ func (q *Queries) CreateTrack(ctx context.Context, arg CreateTrackParams) error 
 	_, err := q.db.ExecContext(ctx, createTrack,
 		arg.Author,
 		arg.Booktitle,
+		arg.Diskindex,
 		arg.Trackindex,
 		arg.Year,
 		arg.Filename,

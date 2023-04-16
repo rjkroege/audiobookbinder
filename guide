@@ -4,3 +4,6 @@ X:id3dumper/.*\.go: w
 {go build}
 ./id3dumper /Users/rjkroege/wrks/docslocal/parents/audio-books/A_Courtesans_Scandal/A_Courtesans_Scandal.mp3
 
+./id3dumper scan /Users/rjkroege/wrks/docslocal/parents/audio-books
+
+sqlc generate
