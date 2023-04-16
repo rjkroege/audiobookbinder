@@ -15,7 +15,7 @@ INSERT INTO tracks (
   author, booktitle, diskindex, trackindex, year, filename, trackname
 ) VALUES (
   ?, ?, ?, ?, ?, ?, ?
-)
+) ON CONFLICT DO NOTHING
 `
 
 type CreateTrackParams struct {
