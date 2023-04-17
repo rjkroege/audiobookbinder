@@ -1,4 +1,4 @@
-module github.com/rjkroege/id3dumper
+module github.com/rjkroege/audiobookbinder
 
 go 1.19
 

@@ -7,7 +7,7 @@ import (
 
 	// The v2 suffix is for version2 of the module system?
 	"github.com/bogem/id3v2/v2"
-	"github.com/rjkroege/id3dumper/state"
+	"github.com/rjkroege/audiobookbinder/state"
 )
 
 type id3 struct {

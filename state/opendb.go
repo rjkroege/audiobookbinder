@@ -6,7 +6,7 @@ import (
 	_ "embed"
 	"fmt"
 
-	"github.com/rjkroege/id3dumper/global"
+	"github.com/rjkroege/audiobookbinder/global"
 	_ "modernc.org/sqlite"
 )
 

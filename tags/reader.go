@@ -3,7 +3,7 @@ package tags
 import (
 	"path/filepath"
 
-	"github.com/rjkroege/id3dumper/state"
+	"github.com/rjkroege/audiobookbinder/state"
 )
 
 // Reader providees a standard way for per-file tag reading mechanisms.

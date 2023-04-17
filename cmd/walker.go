@@ -7,9 +7,9 @@ import (
 	"log"
 	"path/filepath"
 
-	"github.com/rjkroege/id3dumper/global"
-	"github.com/rjkroege/id3dumper/state"
-	"github.com/rjkroege/id3dumper/tags"
+	"github.com/rjkroege/audiobookbinder/global"
+	"github.com/rjkroege/audiobookbinder/state"
+	"github.com/rjkroege/audiobookbinder/tags"
 )
 
 func perfd(gctx *global.Context, queries *state.Queries, path string, info fs.FileInfo, err error) error {

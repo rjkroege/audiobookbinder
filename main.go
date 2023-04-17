@@ -4,8 +4,8 @@ import (
 	"log"
 
 	"github.com/alecthomas/kong"
-	"github.com/rjkroege/id3dumper/cmd"
-	"github.com/rjkroege/id3dumper/global"
+	"github.com/rjkroege/audiobookbinder/cmd"
+	"github.com/rjkroege/audiobookbinder/global"
 )
 
 var CLI struct {

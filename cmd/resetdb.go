@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/rjkroege/id3dumper/global"
-	"github.com/rjkroege/id3dumper/state"
+	"github.com/rjkroege/audiobookbinder/global"
+	"github.com/rjkroege/audiobookbinder/state"
 )
 
 func ResetDatabase(gctx *global.Context) error {

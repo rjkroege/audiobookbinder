@@ -4,8 +4,6 @@
 
 package state
 
-import ()
-
 type Book struct {
 	ID       int64
 	Complete int64
