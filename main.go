@@ -6,6 +6,7 @@ import (
 	"github.com/alecthomas/kong"
 	"github.com/rjkroege/audiobookbinder/cmd"
 	"github.com/rjkroege/audiobookbinder/global"
+	"github.com/rjkroege/audiobookbinder/tags"
 )
 
 var CLI struct {
@@ -20,16 +21,17 @@ var CLI struct {
 	Report struct {
 	} `cmd:"" help:"Print out a report about previously scanned audiobook segments."`
 
+	Tagprint struct {
+		Paths []string `arg:"" name:"path" help:"Paths to scan." type:"path"`
+	} `cmd:"" help:"Print out a detailed list of tags in a particular track."`
+
 	Reset struct {
 	} `cmd:"" help:"Create a brand new empty database."`
 }
 
 func main() {
 	log.Println("hello 1")
-
 	ctx := kong.Parse(&CLI)
-
-	log.Println("the db file", CLI.Db)
 
 	cmdctx := &global.Context{
 		Debug:  CLI.Debug,
@@ -46,6 +48,15 @@ func main() {
 		}
 	case "report":
 		log.Fatal("report functionality is not yet implemented")
+	case "tagprint <path>":
+		for _, f := range CLI.Tagprint.Paths {
+			mdrd := tags.Match(f, cmdctx.Debug)
+			if mdrd != nil {
+				if err := mdrd.Tagprint(f); err != nil {
+					log.Printf("can't read %q: %v\n", f, err)
+				}
+			}
+		}
 	case "reset":
 		if err := cmd.ResetDatabase(cmdctx); err != nil {
 			log.Fatalf("Can't reset database %q: %v", cmdctx.Dbname, err)

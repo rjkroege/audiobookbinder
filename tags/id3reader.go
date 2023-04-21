@@ -14,22 +14,7 @@ type id3 struct {
 	debug bool
 }
 
-// There is a challenge here that I've not addressed: I've discovered the
-// tags that I will process empirically. There will be some more to
-// handle. There will be tracks with invalid tags. I need to discover
-// this.
-
-// Maybe dump the
-
-func (tr *id3) Get(path string) (*state.Track, error) {
-
-	tag, err := id3v2.Open(path, id3v2.Options{Parse: true})
-	if err != nil {
-		return nil, fmt.Errorf("can't opening mp3 file %q: %v", path, err)
-	}
-	defer tag.Close()
-
-	if tr.debug {
+func printAllTags(tag *id3v2.Tag)  {
 		frames := tag.AllFrames()
 		for k, v := range frames {
 			// TODO(rjk): should print a picture using the terminal capabilities
@@ -42,6 +27,22 @@ func (tr *id3) Get(path string) (*state.Track, error) {
 				log.Printf("%s: %s\n", k, v)
 			}
 		}
+}
+
+// There is a challenge here that I've not addressed: I've discovered the
+// tags that I will process empirically. There will be some more to
+// handle. There will be tracks with invalid tags. I need to discover
+// this.
+
+func (tr *id3) Get(path string) (*state.Track, error) {
+	tag, err := id3v2.Open(path, id3v2.Options{Parse: true})
+	if err != nil {
+		return nil, fmt.Errorf("can't opening mp3 file %q: %v", path, err)
+	}
+	defer tag.Close()
+
+	if tr.debug {
+		printAllTags(tag)
 	}
 
 	// need to populate the Infos.
@@ -81,3 +82,14 @@ func (tr *id3) Get(path string) (*state.Track, error) {
 
 // TODO(rjk): Better display of pictures
 // TODO(rjk): Better display of Chapter info
+
+func (tr *id3) Tagprint(path string) error {
+	tag, err := id3v2.Open(path, id3v2.Options{Parse: true})
+	if err != nil {
+		return fmt.Errorf("can't opening mp3 file %q: %v", path, err)
+	}
+	defer tag.Close()
+
+	printAllTags(tag)
+	return nil
+}

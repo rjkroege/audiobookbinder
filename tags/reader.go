@@ -13,6 +13,9 @@ type MetaReader interface {
 	// TODO(rjk): API second-guessing: it's possible that I could save the
 	// path into the object? Shrug. It doesn't matter at this level of complexity.
 	Get(path string) (*state.Track, error)
+
+	// Prints the detailed list of tag contents.
+	Tagprint(path string) error
 }
 
 // Return a MetaReader implementation appropriate to path's extension or nil.
@@ -21,7 +24,7 @@ type MetaReader interface {
 func Match(path string, debug bool) MetaReader {
 	switch filepath.Ext(path) {
 	case ".mp3", ".MP3":
-		return &id3{debug: debug}
+ 		return &id3{debug: debug}
 	}
 	return nil
 }
