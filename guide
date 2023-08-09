@@ -2,7 +2,7 @@ Edit X:audiobookbinder/\+Errors: 1,$d
 X:audiobookbinder/.*\.go: w
 
 {go build}
-./audiobookbinder /Users/rjkroege/wrks/docslocal/parents/audio-books/A_Courtesans_Scandal/A_Courtesans_Scandal.mp3
+./audiobookbinder blah.mp3
 
 ./audiobookbinder scan /Users/rjkroege/wrks/docslocal/parents/audio-books
 

@@ -1,8 +1,10 @@
 package tags
 
 import (
-	"path/filepath"
+	//	"path/filepath"
+	"fmt"
 
+	"github.com/barasher/go-exiftool"
 	"github.com/rjkroege/audiobookbinder/state"
 )
 
@@ -16,15 +18,21 @@ type MetaReader interface {
 
 	// Prints the detailed list of tag contents.
 	Tagprint(path string) error
+
+	// Discards a previously built MetaReader
+	Clunk() error
 }
 
-// Return a MetaReader implementation appropriate to path's extension or nil.
-// TODO(rjk): I note the possibility of supporting complex options with
-// the Pike options pattern as needed.
-func Match(path string, debug bool) MetaReader {
-	switch filepath.Ext(path) {
-	case ".mp3", ".MP3":
- 		return &id3{debug: debug}
+// Creates a metadata reader based on ExifTool. ExifTool can parse all
+// the tags so build one of these.
+func MakeMetaReader(debug bool) (MetaReader, error) {
+
+	et, err := exiftool.NewExiftool()
+	if err != nil {
+		return nil, fmt.Errorf("Can't make a MetaReader because %v", err)
 	}
-	return nil
+	return &id3{
+		debug: debug,
+		exol:  et,
+	}, nil
 }

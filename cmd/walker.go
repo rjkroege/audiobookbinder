@@ -12,33 +12,30 @@ import (
 	"github.com/rjkroege/audiobookbinder/tags"
 )
 
-func perfd(gctx *global.Context, queries *state.Queries, path string, info fs.FileInfo, err error) error {
+func perfd(gctx *global.Context, queries *state.Queries, md tags.MetaReader, path string, info fs.FileInfo, err error) error {
 	// Directories can't ever be of interest.
 	if info.IsDir() {
 		return nil
 	}
 
 	log.Println("handling", path)
-	mdrd := tags.Match(path, gctx.Debug)
-	if mdrd != nil {
-		tag, err := mdrd.Get(path)
-		if err != nil {
-			log.Println("Skipping unreadable tag:", err)
-			return nil
-		}
+	tag, err := md.Get(path)
+	if err != nil {
+		log.Println("Skipping unreadable tag:", err)
+		return nil
+	}
 
-		// I'd have to create a different context to do this in a go routine?
-		if err := queries.CreateTrack(context.Background(), state.CreateTrackParams{
-			Author:     tag.Author,
-			Booktitle:  tag.Booktitle,
-			Trackindex: tag.Trackindex,
-			Year:       tag.Year,
-			Diskindex:  tag.Diskindex,
-			Filename:   tag.Filename,
-			Trackname:  tag.Trackname,
-		}); err != nil {
-			log.Printf("can't insert %v into db because: %v", tag, err)
-		}
+	// I'd have to create a different context to do this in a go routine?
+	if err := queries.CreateTrack(context.Background(), state.CreateTrackParams{
+		Author:     tag.Author,
+		Booktitle:  tag.Booktitle,
+		Trackindex: tag.Trackindex,
+		Year:       tag.Year,
+		Diskindex:  tag.Diskindex,
+		Filename:   tag.Filename,
+		Trackname:  tag.Trackname,
+	}); err != nil {
+		log.Printf("can't insert %v into db because: %v", tag, err)
 	}
 	return nil
 }
@@ -52,10 +49,15 @@ func WalkAll(gctx *global.Context, root string) error {
 	}
 	queries := state.New(gctx.Db)
 
+	md, err := tags.MakeMetaReader(gctx.Debug)
+	if err != nil {
+		log.Fatalf("tagprint can't make a MetaReader because: %v", err)
+	}
+
 	// TODO(rjk): Should this be the io/fs.WalkDir to work on Windows?
 	// TODO(rjk): Should this be a WalkDir invocation? Maybe that's faster?
 	if err := filepath.Walk(root, func(path string, info fs.FileInfo, err error) error {
-		return perfd(gctx, queries, path, info, err)
+		return perfd(gctx, queries, md, path, info, err)
 	}); err != nil {
 		return fmt.Errorf("can't walk %q: %v", root, err)
 	}

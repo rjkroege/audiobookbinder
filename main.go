@@ -49,14 +49,17 @@ func main() {
 	case "report":
 		log.Fatal("report functionality is not yet implemented")
 	case "tagprint <path>":
+		md, err := tags.MakeMetaReader(cmdctx.Debug)
+		if err != nil {
+			log.Fatalf("tagprint can't make a MetaReader because: %v", err)
+		}
+		defer md.Clunk()
 		for _, f := range CLI.Tagprint.Paths {
-			mdrd := tags.Match(f, cmdctx.Debug)
-			if mdrd != nil {
-				if err := mdrd.Tagprint(f); err != nil {
-					log.Printf("can't read %q: %v\n", f, err)
-				}
+			if err := md.Tagprint(f); err != nil {
+				log.Printf("can't read %q: %v\n", f, err)
 			}
 		}
+
 	case "reset":
 		if err := cmd.ResetDatabase(cmdctx); err != nil {
 			log.Fatalf("Can't reset database %q: %v", cmdctx.Dbname, err)
